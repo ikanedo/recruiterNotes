@@ -1,0 +1,55 @@
+<div class="row">
+	<div class="col-sm-3">
+		<div class="thumbnail">
+			<img ng-src="{{recruiter.photo}}" alt="">
+		</div>
+		<ul class="list-group">
+			<li class="list-group-item text-center disabled"><img ng-src="{{recruiter.companyLogo}}" alt=""></li>
+			<li class="list-group-item"><i class="fa fa-sitemap pull-right"></i> {{recruiter.companyName}}</li>
+			<li class="list-group-item"><i class="fa fa-phone pull-right"></i> {{recruiter.telephone || '-'}}</li>
+			<li class="list-group-item"><i class="fa fa-envelope-o pull-right"></i> {{recruiter.email || '-'}}</li>
+		</ul>
+		<ul class="list-group">
+			<li class="list-group-item disabled"><strong>Other Numbers</strong><i class="fa fa-phone pull-right"></i></li>
+			<li class="list-group-item" ng-repeat="number in recruiter.otherNumbers"> {{number}} <button ng-click="removeNumber(recruiter, $index)" class="btn btn-danger btn-xs pull-right"><i class="fa fa-times"></i></button></li>
+			<li class="list-group-item">
+				<form class="form-inline" ng-submit="addNumber(recruiter, newNumber)">
+				  <div class="form-group">
+				    <div class="input-group">
+				      <div class="input-group-addon">+44</div>
+				      <input type="text" class="form-control" required placeholder="757 444 5046" ng-model="newNumber">
+				      <div class="input-group-addon"><button type="submit" class="btn-link btn-xs fa fa-plus"></button></div>
+				    </div>
+				  </div>
+				</form>
+			</li>
+		</ul>
+	</div>
+	<div class="col-sm-7">
+		<h1>{{recruiter.name}}</h1>
+		
+		<div class="panel panel-default">
+		  <div class="panel-heading">Notes <button class="btn btn-link btn-lg" ng-click="editNote(recruiter)"><i class="fa fa-pencil-square-o"></i> </button></div>
+		  <div class="panel-body" style="min-height: 150px">
+		    <p ng-show="recruiter.notes.description && !isEditableNote">{{recruiter.notes.description}}
+			</p>
+			<div ng-show="isEditableNote">
+				<div class="form-group">
+					<textarea rows="8" class="form-control" ng-model="recruiter.notes.description">{{recruiter.notes.description}}</textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-success" ng-click="saveNote(recruiter)">Save</button>
+					<button class="btn btn-danger" ng-click="cancelNote(recruiter)">Cancel</button>
+				</div>
+			</div>
+		  </div>
+		  <div class="panel-footer" ng-show="recruiter.notes.description.length > 1" title="last updated {{recruiter.notes.lastUpdated | date:'medium'}}" >
+		  	<i class="fa fa-clock-o"></i> {{ recruiter.notes.lastUpdated | date:'medium'}}
+		  </div>
+		</div>
+		
+	</div>
+	<div class="col-sm-2">
+		<a ui-sref="addEditRecruiter({ id : recruiter.$id })" class="btn btn-info pull-right"><i class="fa fa-pencil"></i> Edit Details</a>
+	</div>
+</div>

@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('RecruiterNotes')
     .directive('rdWidget', rdWidget);
 
 function rdWidget() {

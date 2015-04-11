@@ -3,13 +3,14 @@
  */
 
 angular
-    .module('RDash')
+    .module('RecruiterNotes')
     .directive('rdWidgetBody', rdWidgetBody);
 
 function rdWidgetBody() {
     var directive = {
         requires: '^rdWidget',
         scope: {
+            search: '=',
             loading: '@?',
             classes: '@?'
         },

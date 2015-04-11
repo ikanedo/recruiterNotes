@@ -1,0 +1,58 @@
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1>Add Recruiter</h1>
+		<form class="form-horizontal" ng-submit="saveRecruiter(tempRecruiter)">
+			<div class="form-group">
+				<label for="recPhoto" class="col-sm-2 control-label">Photo</label>
+				<div class="col-sm-6">
+					<div class="input-group">
+						<span class="input-group-addon"><img height="32" width="32" ng-src="{{tempRecruiter.photoPreview}}" alt=""></span>
+						<input ng-blur="tempRecruiter.photoPreview = tempRecruiter.photo" ng-model="tempRecruiter.photo" type="text" class="form-control input-lg" id="recPhoto" placeholder="http://url/photo.jpg">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="recName" class="col-sm-2 control-label">Name</label>
+				<div class="col-sm-6">
+					<input required ng-model="tempRecruiter.name" type="text" class="form-control" id="recName" placeholder="Fullname">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="recEmail" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-6">
+					<input ng-model="tempRecruiter.email" type="email" class="form-control" id="recEmail" placeholder="Email">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="recTelephone" class="col-sm-2 control-label">Telephone</label>
+				<div class="col-sm-6">
+					<input ng-model="tempRecruiter.telephone" type="text" class="form-control" id="recTelephone" placeholder="Telephone">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="recCompany" class="col-sm-2 control-label">Company Name</label>
+				<div class="col-sm-6">
+					<input required ng-model="tempRecruiter.companyName" type="text" class="form-control" id="recCompany" placeholder="Company Name">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="recLogo" class="col-sm-2 control-label">Company Logo</label>
+				<div class="col-sm-6">
+					<input ng-model="tempRecruiter.companyLogo" type="text" class="form-control" id="recLogo" placeholder="http://url/logo.jpg">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="recNotes" class="col-sm-2 control-label">Notes</label>
+				<div class="col-sm-6">
+					<textarea required ng-model="tempRecruiter.notes.description" id="recNotes" class="form-control" rows="5" placeholder="Notes"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-6">
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

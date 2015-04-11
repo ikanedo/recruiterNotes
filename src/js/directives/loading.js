@@ -4,7 +4,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('RecruiterNotes')
     .directive('rdLoading', rdLoading);
 
 function rdLoading() {

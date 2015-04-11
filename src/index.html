@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" ng-app="RDash">
+<html lang="en" ng-app="RecruiterNotes">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>RDash AngularJS</title>
+  <title>RDash AngularJS</title>
   <!-- STYLES -->
   <!-- build:css lib/css/main.min.css -->
   <link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.min.css">
@@ -12,12 +12,20 @@
   <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
   <!-- endbuild -->
   <!-- SCRIPTS -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.0/es5-shim.min.js"></script>
   <!-- build:js lib/js/main.min.js -->
   <script type="text/javascript" src="components/angular/angular.min.js"></script>
+
   <script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
   <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <!-- endbuild -->
+  <!-- Angular -->
+
+  <!-- Firebase -->
+  <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+
   <!-- Custom Scripts -->
   <script type="text/javascript" src="js/dashboard.min.js"></script>
 </head>
@@ -35,28 +43,24 @@
         </li>
         <li class="sidebar-title"><span>NAVIGATION</span></li>
         <li class="sidebar-list">
-          <a href="#">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+          <a ui-sref="index">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
         </li>
-        <li class="sidebar-list">
-          <a href="#/tables">Tables <span class="menu-icon fa fa-table"></span></a>
+        <li class="sidebar-list" ng-show="authData">
+        <a ui-sref="addEditRecruiter">Add Recruiter <span class="menu-icon fa fa-user"></span></a>
         </li>
       </ul>
       <div class="sidebar-footer">
         <div class="col-xs-4">
-          <a href="https://github.com/rdash/rdash-angular" target="_blank">
+          <a href="https://github.com/ikanedo/rdash-angular" target="_blank">
             Github
           </a>
         </div>
         <div class="col-xs-4">
-          <a href="https://github.com/rdash/rdash-angular/README.md" target="_blank">
+          <a ui-sref="about">
             About
           </a>
         </div>
-        <div class="col-xs-4">
-          <a href="#">
-            Support
-          </a>
-        </div>
+        
       </div>
     </div>
     <!-- End Sidebar -->
@@ -68,70 +72,64 @@
         <div class="row header">
           <div class="col-xs-12">
             <div class="user pull-right">
-              <div class="item dropdown">
+              <div class="item dropdown" ng-show="!authData">
+                <button ng-click="login()" class="btn btn-link" style="padding: 0">
+                  <img ng-src="{{avatar}}">
+                </button>
+              </div>
+              <div class="item dropdown" ng-show="authData">
                 <a href="#" class="dropdown-toggle">
-                  <img src="img/avatar.jpg">
+                  <img ng-src="{{avatar}}">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-header">
-                    Joe Bloggs
+                  <li class="dropdown-header" ng-if="authData">
+                    {{authData.google.cachedUserProfile.name}}
                   </li>
                   <li class="divider"></li>
                   <li class="link">
-                    <a href="#">
-                      Profile
-                    </a>
-                  </li>
-                  <li class="link">
-                    <a href="#">
-                      Menu Item
-                    </a>
-                  </li>
-                  <li class="link">
-                    <a href="#">
-                      Menu Item
-                    </a>
-                  </li>
-                  <li class="divider"></li>
-                  <li class="link">
-                    <a href="#">
+                    <button class="btn btn-link" ng-click="logout()">
                       Logout
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
               <div class="item dropdown">
                <a href="#" class="dropdown-toggle">
-                  <i class="fa fa-bell-o"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-header">
-                    Notifications
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a href="#">Server Down!</a>
-                  </li>
-                </ul>
-              </div>
+                <i class="fa fa-bell-o"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="dropdown-header">
+                  Notifications
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">Server Down!</a>
+                </li>
+              </ul>
             </div>
-            <div class="meta">
-              <div class="page">
-                Dashboard
-              </div>
-              <div class="breadcrumb-links">
-                Home / Dashboard
-              </div>
+          </div>
+          <div class="meta">
+            <div class="page">
+              Dashboard
+            </div>
+            <div class="breadcrumb-links">
+              Home / Dashboard
             </div>
           </div>
         </div>
-        <!-- End Header Bar -->
+      </div>
+      <!-- End Header Bar -->
 
-        <!-- Main Content -->
-        <div ui-view></div>
+      <!-- Main Content -->
+      <div class="row alerts-container" data-ng-show="alerts.length">
+        <div class="col-xs-12">
+          <alert data-ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        </div>
+      </div>
+      <div ui-view></div>
 
-      </div><!-- End Page Content -->
-    </div><!-- End Content Wrapper -->
-  </div><!-- End Page Wrapper -->
+    </div><!-- End Page Content -->
+  </div><!-- End Content Wrapper -->
+</div><!-- End Page Wrapper -->
 </body>
 </html>
