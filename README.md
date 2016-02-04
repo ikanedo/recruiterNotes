@@ -26,3 +26,5 @@
 	</li>
 	<li>Add rating functionality - simple like / dislike functionality</li>
 </ul>
+<h2>How to use</h2>
+<p>Simply run <b>Gulp</b> </p>
